@@ -11,28 +11,30 @@ class LeftCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * .02,
-            horizontal: MediaQuery.of(context).size.width * .03),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(category.picturePath),
-            Text(
-              category.categoryName,
-              style: GoogleFonts.exo(
-                textStyle: Theme.of(context).textTheme.titleLarge,
+      child: InkWell(
+        child: Container(
+          margin: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * .02,
+              horizontal: MediaQuery.of(context).size.width * .03),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Image.asset(category.picturePath),
+              Text(
+                category.categoryName,
+                style: GoogleFonts.exo(
+                  textStyle: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            color:category.color,
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(20),
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
-          ],
-        ),
-        decoration: BoxDecoration(
-          color:category.color,
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(20),
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
           ),
         ),
       ),
