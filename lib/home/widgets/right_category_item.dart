@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/home/category_data.dart';
 import 'package:news_app/news/news_screen.dart';
-import 'package:news_app/utils/app_colors.dart';
+
 class RightCategoryItem extends StatelessWidget {
   final CategoryData category;
 
   const RightCategoryItem({super.key, required this.category});
- 
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-         onTap: () {
+        onTap: () {
           Navigator.pushNamed(context, NewsScreen.name, arguments: category);
         },
         child: Container(
@@ -32,7 +32,7 @@ class RightCategoryItem extends StatelessWidget {
             ],
           ),
           decoration: BoxDecoration(
-              color:category.color,
+              color: category.color,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   topLeft: Radius.circular(20),

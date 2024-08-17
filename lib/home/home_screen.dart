@@ -27,74 +27,93 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Pick your category',
-              style: GoogleFonts.poppins(
-                  textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: AppColors.darkGray, fontWeight: FontWeight.bold)),
+      body: HomeScreenBody(),
+    );
+  }
+}
+
+class HomeScreenBody extends StatelessWidget {
+  const HomeScreenBody({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Pick your category',
+            style: GoogleFonts.poppins(
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: AppColors.darkGray, fontWeight: FontWeight.bold)),
+          ),
+          Text(
+            'of interest',
+            style: GoogleFonts.poppins(
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: AppColors.darkGray, fontWeight: FontWeight.bold)),
+          ),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                LeftCategoryItem(
+                  category: CategoryData(
+                      categoryName: 'Sports',
+                      picturePath: ImagesPath.ball,
+                      color: AppColors.red),
+                ),
+                RightCategoryItem(
+                  category: CategoryData(
+                      categoryName: 'Politics',
+                      picturePath: ImagesPath.politics,
+                      color: AppColors.darkBlue),
+                )
+              ],
             ),
-            Text(
-              'of interest',
-              style: GoogleFonts.poppins(
-                  textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: AppColors.darkGray, fontWeight: FontWeight.bold)),
+          ),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                LeftCategoryItem(
+                  category: CategoryData(
+                      categoryName: 'Health',
+                      picturePath: ImagesPath.health,
+                      color: AppColors.pink),
+                ),
+                RightCategoryItem(
+                  category: CategoryData(
+                      categoryName: 'Bussines',
+                      picturePath: ImagesPath.bussines,
+                      color: AppColors.orange),
+                )
+              ],
             ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  LeftCategoryItem(
-                    category: CategoryData(
-                        categoryName: 'Sports', picturePath: ImagesPath.ball, color: AppColors.red),
-                  ),
-                  RightCategoryItem(
-                    category: CategoryData(
-                        categoryName: 'Politics',
-                        picturePath: ImagesPath.politics, color: AppColors.darkBlue),
-                  )
-                ],
-              ),
+          ),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                LeftCategoryItem(
+                  category: CategoryData(
+                      categoryName: 'Environment',
+                      picturePath: ImagesPath.environment,
+                      color: AppColors.lightBlue),
+                ),
+                RightCategoryItem(
+                  category: CategoryData(
+                      categoryName: 'Science',
+                      picturePath: ImagesPath.science,
+                      color: AppColors.yellow),
+                )
+              ],
             ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  LeftCategoryItem(
-                    category: CategoryData(
-                        categoryName: 'Health', picturePath: ImagesPath.health, color: AppColors.pink),
-                  ),
-                  RightCategoryItem(
-                    category: CategoryData(
-                        categoryName: 'Bussines',
-                        picturePath: ImagesPath.bussines, color: AppColors.orange),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  LeftCategoryItem(
-                    category: CategoryData(
-                        categoryName: 'Environment',
-                        picturePath: ImagesPath.environment, color: AppColors.lightBlue),
-                  ),
-                  RightCategoryItem(
-                    category: CategoryData(
-                        categoryName: 'Science',
-                        picturePath: ImagesPath.science, color: AppColors.yellow),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

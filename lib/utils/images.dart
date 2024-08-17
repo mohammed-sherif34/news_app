@@ -6,4 +6,5 @@ class ImagesPath {
   static const String newsTest = 'assets/images/NewsTest.png';
   static const String science = 'assets/images/science.png';
   static const String politics = 'assets/images/Politics.png';
+  static const String search = 'assets/images/search.png';
 }

@@ -5,5 +5,8 @@ class CategoryData {
   final String picturePath;
   final Color color;
 
-  CategoryData( {required this.color,required this.categoryName, required this.picturePath});
+  CategoryData(
+      {required this.color,
+      required this.categoryName,
+      required this.picturePath});
 }

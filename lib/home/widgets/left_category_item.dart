@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/home/category_data.dart';
 import 'package:news_app/news/news_screen.dart';
+
 class LeftCategoryItem extends StatelessWidget {
   final CategoryData category;
 
