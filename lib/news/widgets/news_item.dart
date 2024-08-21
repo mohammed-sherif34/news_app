@@ -5,9 +5,10 @@ import 'package:news_app/utils/app_colors.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({
-    super.key, required this.article,
+    super.key,
+    required this.article,
   });
- final Articles article;
+  final Articles article;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,42 +16,56 @@ class NewsItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
-            child:CachedNetworkImage(
-        imageUrl: article.urlToImage??'',
-        placeholder: (context, url) => Center(
-          child: const CircularProgressIndicator(
-            color: AppColors.primaryColor,
-          ),
-        ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-     ),
-          ),
+          NewsImage(article: article),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 8),
+            padding: const EdgeInsets.only(top: 16.0, left: 8),
             child: Text(
-              article.author??'',
+              article.author ?? '',
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 8),
+            padding: const EdgeInsets.only(top: 16.0, left: 8),
             child: Text(
-              article.title??'',
+              article.title ?? '',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
-             article.publishedAt??'',
+              article.publishedAt ?? '',
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.end,
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class NewsImage extends StatelessWidget {
+  const NewsImage({
+    super.key,
+    required this.article,
+  });
+
+  final Articles article;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
+      child: CachedNetworkImage(
+        imageUrl: article.urlToImage ?? '',
+        placeholder: (context, url) => const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primaryColor,
+          ),
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
   }

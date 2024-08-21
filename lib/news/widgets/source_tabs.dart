@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/home/category_data.dart';
 import 'package:news_app/model/source.dart';
 import 'package:news_app/news/widgets/source_tap.dart';
 import 'package:news_app/utils/app_colors.dart';
+
 class SourceTabs extends StatefulWidget {
   final Function(String) onSourceSelected;
+  final CategoryData category;
 
-  const SourceTabs({super.key, required this.onSourceSelected});
+  const SourceTabs({super.key, required this.onSourceSelected, required this.category});
 
   @override
   State<SourceTabs> createState() => _SourceTabsState();
@@ -14,11 +17,11 @@ class SourceTabs extends StatefulWidget {
 
 class _SourceTabsState extends State<SourceTabs> {
   late Future<Source?> sourceFuture;
-  int selectIndex=0;
+  int selectIndex = 0;
 
   @override
   void initState() {
-    sourceFuture = ApiManager.getSources();
+    sourceFuture = ApiManager.getSourcesByCategory(widget.category.id);
     super.initState();
   }
 
@@ -54,8 +57,10 @@ class _SourceTabsState extends State<SourceTabs> {
           return Text('${snapshot.error}');
         }
 
-        return const CircularProgressIndicator(
-          color: AppColors.primaryColor,
+        return const Center(
+          child:  CircularProgressIndicator(
+            color: AppColors.primaryColor,
+          ),
         );
       },
     );

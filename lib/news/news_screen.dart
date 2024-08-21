@@ -8,7 +8,7 @@ import 'package:news_app/utils/app_colors.dart';
 import 'package:news_app/utils/images.dart';
 
 import 'widgets/news_list.dart';
-import 'widgets/source_tap.dart';
+
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
   static const name = 'NewsScreen';
@@ -18,7 +18,26 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-  String selectedSourceId = 'abc-news'; // Initialize with a default source ID
+  late Future<Source?> initialSourceFuture;
+  CategoryData? category;
+  String selectedSourceId = '';
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (category == null) {
+      category = ModalRoute.of(context)!.settings.arguments as CategoryData;
+      initialSourceFuture =
+          ApiManager.getSourcesByCategory(category!.id).then((sourceData) {
+        if (sourceData != null && sourceData.sources!.isNotEmpty) {
+          setState(() {
+            selectedSourceId = sourceData.sources![0].id!;
+          });
+        }
+        return sourceData;
+      });
+    }
+  }
 
   void _onSourceSelected(String sourceId) {
     setState(() {
@@ -29,8 +48,6 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryData category =
-        ModalRoute.of(context)!.settings.arguments as CategoryData;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * .09,
@@ -41,7 +58,7 @@ class _NewsScreenState extends State<NewsScreen> {
         ),
         centerTitle: true,
         title: Text(
-          category.categoryName,
+          category?.categoryName ?? '',
           style: GoogleFonts.exo(
             textStyle: Theme.of(context).textTheme.titleLarge,
           ),
@@ -59,17 +76,33 @@ class _NewsScreenState extends State<NewsScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              SourceTabs(onSourceSelected: _onSourceSelected),
-            ],
-          ),
-          Expanded(
-            child: NewsList(sourceId: selectedSourceId),
-          ),
-        ],
+      body: FutureBuilder<Source?>(
+        future: initialSourceFuture,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                SourceTabs(
+                  category: category!,
+                  onSourceSelected: _onSourceSelected,
+                ),
+                if (selectedSourceId.isNotEmpty)
+                  Expanded(
+                    child: NewsList(
+                      sourceId: selectedSourceId,
+                      key: ValueKey(selectedSourceId),
+                    ),
+                  )
+                else
+                  const Center(child: Text('No sources available')),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }

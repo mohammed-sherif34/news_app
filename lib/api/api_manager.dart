@@ -11,10 +11,11 @@ import 'package:news_app/model/news.dart';
 import 'package:news_app/model/source.dart';
 
 class ApiManager {
-  static Future<Source?> getSources() async {
+  static Future<Source?> getSourcesByCategory(String categoryId) async {
     try {
       Uri url = Uri.https(ApiConstans.authority, ApiConstans.sourcesApi, {
         'apiKey': ApiConstans.apiKey,
+        'category':categoryId
       });
       var response = await http.get(url);
       return Source.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
