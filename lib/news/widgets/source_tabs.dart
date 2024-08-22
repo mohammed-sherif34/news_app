@@ -9,7 +9,8 @@ class SourceTabs extends StatefulWidget {
   final Function(String) onSourceSelected;
   final CategoryData category;
 
-  const SourceTabs({super.key, required this.onSourceSelected, required this.category});
+  const SourceTabs(
+      {super.key, required this.onSourceSelected, required this.category});
 
   @override
   State<SourceTabs> createState() => _SourceTabsState();
@@ -32,7 +33,7 @@ class _SourceTabsState extends State<SourceTabs> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height * .08,
+            height: MediaQuery.of(context).size.height * .09,
             width: MediaQuery.of(context).size.width, // Define a width
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -58,7 +59,7 @@ class _SourceTabsState extends State<SourceTabs> {
         }
 
         return const Center(
-          child:  CircularProgressIndicator(
+          child: CircularProgressIndicator(
             color: AppColors.primaryColor,
           ),
         );

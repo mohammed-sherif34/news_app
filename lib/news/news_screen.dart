@@ -4,6 +4,7 @@ import 'package:news_app/api/api_manager.dart';
 import 'package:news_app/home/category_data.dart';
 import 'package:news_app/model/source.dart';
 import 'package:news_app/news/widgets/source_tabs.dart';
+import 'package:news_app/search/search_screen.dart';
 import 'package:news_app/utils/app_colors.dart';
 import 'package:news_app/utils/images.dart';
 
@@ -50,7 +51,7 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * .09,
+        toolbarHeight: MediaQuery.of(context).size.height * .08,
         leading: Icon(
           color: AppColors.white,
           Icons.menu,
@@ -68,10 +69,15 @@ class _NewsScreenState extends State<NewsScreen> {
             padding: const EdgeInsets.only(
               right: 32.0,
             ),
-            child: ImageIcon(
-              color: AppColors.white,
-              size: 27,
-              AssetImage(ImagesPath.search),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, SearchScreen.name);
+              },
+              child: ImageIcon(
+                color: AppColors.white,
+                size: 27,
+                AssetImage(ImagesPath.search),
+              ),
             ),
           ),
         ],
@@ -81,17 +87,16 @@ class _NewsScreenState extends State<NewsScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SourceTabs(
                   category: category!,
                   onSourceSelected: _onSourceSelected,
                 ),
                 if (selectedSourceId.isNotEmpty)
-                  Expanded(
-                    child: NewsList(
-                      sourceId: selectedSourceId,
-                      key: ValueKey(selectedSourceId),
-                    ),
+                  NewsList(
+                    sourceId: selectedSourceId,
+                    key: ValueKey(selectedSourceId),
                   )
                 else
                   const Center(child: Text('No sources available')),

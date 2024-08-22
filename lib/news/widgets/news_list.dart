@@ -7,19 +7,24 @@ import 'package:news_app/utils/app_colors.dart';
 class NewsList extends StatefulWidget {
   final String sourceId;
 
-  NewsList({super.key, required this.sourceId});
+  const NewsList({super.key, required this.sourceId});
 
   @override
   State<NewsList> createState() => _NewsListState();
 }
 
 class _NewsListState extends State<NewsList> {
-  late Future<News?> news;
+  List<Articles> articles = [];
+  bool isLoading = false;
+  int currentPage = 1;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    news = ApiManager.getNewsBySourceId(widget.sourceId);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    _fetchNews();
   }
 
   @override
@@ -27,45 +32,69 @@ class _NewsListState extends State<NewsList> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.sourceId != widget.sourceId) {
       setState(() {
-        news = ApiManager.getNewsBySourceId(widget.sourceId);
+        articles.clear();
+        currentPage = 1;
       });
+      _fetchNews();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _fetchNews() async {
+    if (isLoading) return;
+    setState(() {
+      isLoading = true;
+    });
+    News? newsResponse =
+        await ApiManager.getNewsBySourceId(widget.sourceId, page: currentPage);
+    if (newsResponse != null && newsResponse.status == 'ok') {
+      setState(() {
+        articles.addAll(newsResponse.articles ?? []);
+        currentPage++;
+      });
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !isLoading) {
+      _fetchNews();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<News?>(
-      future: news,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: const CircularProgressIndicator(
+    return articles.isEmpty && isLoading
+        ? const Center(
+            child: CircularProgressIndicator(
               color: AppColors.primaryColor,
             ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        } else if (snapshot.hasData) {
-          print('API Response: ${snapshot.data}');
-          if (snapshot.data?.status == 'ok') {
-            return Expanded(
-              child: ListView.builder(
-                itemCount: snapshot.data?.articles?.length,
-                itemBuilder: (_, index) {
-                  return GestureDetector(
-                    onTap: () {},
-                    child: NewsItem(article: snapshot.data!.articles![index]),
+          )
+        : Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: articles.length + (isLoading ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index < articles.length) {
+                  return NewsItem(article: articles[index]);
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    ),
                   );
-                },
-              ),
-            );
-          } else {
-            return const Text('No data available');
-          }
-        } else {
-          return const Text('No data available');
-        }
-      },
-    );
+                }
+              },
+            ),
+          );
   }
 }

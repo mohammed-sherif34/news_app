@@ -15,7 +15,8 @@ class ApiManager {
     try {
       Uri url = Uri.https(ApiConstans.authority, ApiConstans.sourcesApi, {
         'apiKey': ApiConstans.apiKey,
-        'category':categoryId
+        'category':categoryId,
+       
       });
       var response = await http.get(url);
       return Source.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -24,11 +25,13 @@ class ApiManager {
     }
   }
 
-  static Future<News?> getNewsBySourceId(String? sourceId) async {
+  static Future<News?> getNewsBySourceId(String? sourceId,{int pageSize=10,int page=1}) async {
     try {
       Uri url = Uri.https(ApiConstans.authority, ApiConstans.newsApi, {
         'apiKey': ApiConstans.apiKey,
         'sources': sourceId,
+         'pageSize':pageSize.toString(),
+        'page':page.toString(),
       });
       var response = await http.get(url);
       return News.fromJson(jsonDecode(response.body) as Map<String, dynamic>);

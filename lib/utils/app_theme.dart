@@ -35,12 +35,12 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
+        fontSize: 15,
         color: AppColors.darkGray,
         fontWeight: FontWeight.bold,
       ),
       bodySmall: TextStyle(
-        fontSize: 12,
+        fontSize: 13,
         color: AppColors.lightGray,
         fontWeight: FontWeight.w400,
       ),
