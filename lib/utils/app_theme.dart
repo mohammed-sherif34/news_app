@@ -4,6 +4,7 @@ import 'package:news_app/utils/app_colors.dart';
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: AppColors.primaryColor,
+    
     appBarTheme: AppBarTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -26,8 +27,8 @@ class AppTheme {
       ),
       titleSmall: TextStyle(
         fontSize: 14,
-        color: AppColors.darkGray,
-        fontWeight: FontWeight.bold,
+        color: AppColors.white,
+        fontWeight: FontWeight.w400,
       ),
       bodyLarge: TextStyle(
         fontSize: 24,
@@ -35,12 +36,12 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
       bodyMedium: TextStyle(
-        fontSize: 13,
+        fontSize: 15,
         color: AppColors.darkGray,
         fontWeight: FontWeight.bold,
       ),
       bodySmall: TextStyle(
-        fontSize: 10,
+        fontSize: 13,
         color: AppColors.lightGray,
         fontWeight: FontWeight.w400,
       ),

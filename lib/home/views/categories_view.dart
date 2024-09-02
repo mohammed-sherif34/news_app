@@ -1,51 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app/home/category_data.dart';
+import 'package:news_app/home/widgets/category_item.dart';
 import 'package:news_app/utils/app_colors.dart';
-import 'package:news_app/utils/images.dart';
 
-class CategoryData {
-  final String id;
-  final String categoryName;
-  final String picturePath;
-  final Color color;
+class CategoriesView extends StatelessWidget {
+  const CategoriesView({
+    super.key,
+  });
 
-  CategoryData(
-      {required this.id,
-      required this.color,
-      required this.categoryName,
-      required this.picturePath});
-//business entertainment general health science sports technology
-  static List<CategoryData> categoryItemList = [
-    CategoryData(
-        id: 'sports',
-        categoryName: 'Sports',
-        picturePath: ImagesPath.ball,
-        color: AppColors.red),
-    CategoryData(
-        id: 'science',
-        categoryName: 'Science',
-        picturePath: ImagesPath.science,
-        color: AppColors.yellow),
-    CategoryData(
-        id: 'entertainment',
-        categoryName: 'Entertainment',
-        picturePath: ImagesPath.environment,
-        color: AppColors.lightBlue),
-    CategoryData(
-        id: 'technology',
-        categoryName: 'Technology',
-        picturePath: ImagesPath.politics,
-        color: AppColors.darkBlue),
-    CategoryData(
-        id: 'health',
-        categoryName: 'Health',
-        picturePath: ImagesPath.health,
-        color: AppColors.pink),
-    CategoryData(
-        id: 'business',
-        categoryName: 'Business',
-        picturePath: ImagesPath.bussines,
-        color: AppColors.orange),
-  ];
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Pick your category\nof interest',
+            style: GoogleFonts.poppins(
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: AppColors.darkGray, fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .025,
+          ),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: MediaQuery.of(context).size.width * .045,
+                mainAxisSpacing: MediaQuery.of(context).size.height * .025,
+              ),
+              itemCount: CategoryData.categoryItemList.length,
+              itemBuilder: (context, index) {
+                return CategoryItem(
+                    index: index,
+                    category: CategoryData.categoryItemList[index]);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 /*
 class HomeScreenBody extends StatelessWidget {

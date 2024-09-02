@@ -37,6 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_native_splash: ^2.4.1
   google_fonts: ^6.2.1
+  http: ^1.2.2
+  cached_network_image: ^3.4.1
+  webview_flutter: ^4.9.0
+  dropdown_button2: ^2.3.9
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.6
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
