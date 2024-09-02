@@ -33,7 +33,7 @@ class _SourceTabsState extends State<SourceTabs> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height * .09,
+            height: MediaQuery.of(context).size.height * .08,
             width: MediaQuery.of(context).size.width, // Define a width
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -58,9 +58,12 @@ class _SourceTabsState extends State<SourceTabs> {
           return Text('${snapshot.error}');
         }
 
-        return const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primaryColor,
+        return const Padding(
+          padding: EdgeInsets.only(top: 8.0),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
           ),
         );
       },

@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       routes: {
-        HomeScreen.routeName: (context) => HomeScreen(),
-        NewsScreen.name: (context) => NewsScreen(),
-        SearchScreen.name: (context) => SearchScreen(),
+        HomeScreen.routeName: (context) =>  HomeScreen(),
+        NewsScreen.name: (context) => const NewsScreen(),
+        SearchScreen.name: (context) => const SearchScreen(),
         NewsDetailsScreen.name: (context) => NewsDetailsScreen(),
-        WebViewScreen.name: (context) => WebViewScreen(),
+        WebViewScreen.name: (context) => const WebViewScreen(),
       },
       initialRoute: HomeScreen.routeName,
     );

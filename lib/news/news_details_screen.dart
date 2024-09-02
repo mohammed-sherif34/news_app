@@ -5,10 +5,14 @@ import 'package:news_app/news/web_view_screen.dart';
 import 'package:news_app/news/widgets/news_item.dart';
 import 'package:news_app/utils/app_colors.dart';
 
+// ignore: must_be_immutable
 class NewsDetailsScreen extends StatelessWidget {
-  NewsDetailsScreen({super.key});
+  //const NewsDetailsScreen({super.key});
   static const String name = 'NewsDetailsScreen';
-    Articles? article;
+        Articles? article;
+
+   // ignore: prefer_const_constructors_in_immutables
+   NewsDetailsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     article = ModalRoute.of(context)?.settings.arguments as Articles;

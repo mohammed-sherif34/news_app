@@ -5,9 +5,10 @@ import 'package:news_app/news/widgets/news_item.dart';
 import 'package:news_app/utils/app_colors.dart';
 
 class NewsList extends StatefulWidget {
-  final String sourceId;
+  final String? sourceId;
+  final String? searchKey;
 
-  const NewsList({super.key, required this.sourceId});
+  const NewsList({super.key, this.searchKey, this.sourceId});
 
   @override
   State<NewsList> createState() => _NewsListState();
@@ -30,7 +31,8 @@ class _NewsListState extends State<NewsList> {
   @override
   void didUpdateWidget(NewsList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.sourceId != widget.sourceId) {
+    if (oldWidget.searchKey != widget.searchKey ||
+        oldWidget.sourceId != widget.sourceId) {
       setState(() {
         articles.clear();
         currentPage = 1;
@@ -50,14 +52,20 @@ class _NewsListState extends State<NewsList> {
     setState(() {
       isLoading = true;
     });
-    News? newsResponse =
-        await ApiManager.getNewsBySourceId(widget.sourceId, page: currentPage);
+
+    News? newsResponse = await ApiManager.getNewsBySourceId(
+      widget.sourceId,
+      page: currentPage,
+      q: widget.searchKey, // Pass the search key to the API call
+    );
+
     if (newsResponse != null && newsResponse.status == 'ok') {
       setState(() {
         articles.addAll(newsResponse.articles ?? []);
         currentPage++;
       });
     }
+
     setState(() {
       isLoading = false;
     });
@@ -74,9 +82,16 @@ class _NewsListState extends State<NewsList> {
   @override
   Widget build(BuildContext context) {
     return articles.isEmpty && isLoading
-        ? const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
+        ? const Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ],
             ),
           )
         : Expanded(

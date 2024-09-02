@@ -4,6 +4,7 @@ import 'package:news_app/utils/app_colors.dart';
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: AppColors.primaryColor,
+    
     appBarTheme: AppBarTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

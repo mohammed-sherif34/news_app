@@ -13,7 +13,7 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  Articles? article;
+  late Articles? article;
   late WebViewController controller;
   int loadingProgress = 0;
 
@@ -63,12 +63,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
           onPageFinished: (String url) {},
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
+         /* onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
-          },
+          },*/
         ),
       )
       ..loadRequest(Uri.parse(article!.url ?? ''));
