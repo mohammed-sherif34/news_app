@@ -4,20 +4,25 @@ import 'package:news_app/model/news.dart';
 import 'package:news_app/news/web_view_screen.dart';
 import 'package:news_app/news/widgets/news_item.dart';
 import 'package:news_app/utils/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class NewsDetailsScreen extends StatelessWidget {
   //const NewsDetailsScreen({super.key});
   static const String name = 'NewsDetailsScreen';
-        Articles? article;
+  Articles? article;
 
-   // ignore: prefer_const_constructors_in_immutables
-   NewsDetailsScreen({super.key});
+  // ignore: prefer_const_constructors_in_immutables
+  NewsDetailsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     article = ModalRoute.of(context)?.settings.arguments as Articles;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: AppColors.white,
+          size: 30, // Change this to the color you want
+        ),
         toolbarHeight: MediaQuery.of(context).size.height * .08,
         centerTitle: true,
         title: Text(
@@ -75,7 +80,8 @@ class NewsDetailsScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, WebViewScreen.name,arguments: article);
+                Navigator.pushNamed(context, WebViewScreen.name,
+                    arguments: article);
               },
               child: Padding(
                 padding: const EdgeInsets.only(top: 16.0, left: 8, right: 16),
@@ -83,7 +89,7 @@ class NewsDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'View Full Article',
+                      AppLocalizations.of(context)!.viewFullArticle,
                       textAlign: TextAlign.end,
                       style: Theme.of(context)
                           .textTheme

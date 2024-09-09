@@ -33,7 +33,7 @@ class _SourceTabsState extends State<SourceTabs> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height * .08,
+            height: MediaQuery.of(context).size.height * .09,
             width: MediaQuery.of(context).size.width, // Define a width
             child: ListView.builder(
               scrollDirection: Axis.horizontal,

@@ -26,6 +26,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: AppColors.white,
+          size: 30, // Change this to the color you want
+        ),
         toolbarHeight: MediaQuery.of(context).size.height * .08,
         centerTitle: true,
         title: Text(
@@ -63,7 +67,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           onPageFinished: (String url) {},
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
-         /* onNavigationRequest: (NavigationRequest request) {
+          /* onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
             }

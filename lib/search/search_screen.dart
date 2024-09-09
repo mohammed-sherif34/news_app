@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/news/widgets/news_list.dart';
 import 'package:news_app/utils/app_colors.dart';
 import 'package:news_app/utils/images.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String name = 'SearchScreen';
@@ -23,6 +24,7 @@ class _SearchScreenState extends State<SearchScreen> {
         toolbarHeight: MediaQuery.of(context).size.height * .08,
         centerTitle: true,
         title: TextField(
+          
           onChanged: (value) {
             setState(() {
               searchKey = value.isEmpty ? null : value;
@@ -53,7 +55,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             fillColor: AppColors.white,
             filled: true,
+            hintText:AppLocalizations.of(context)!.search ,
             focusedBorder: OutlineInputBorder(
+              
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(40),
             ),

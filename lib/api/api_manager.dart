@@ -10,11 +10,13 @@ class ApiManager {
       Uri url = Uri.https(ApiConstans.authority, ApiConstans.sourcesApi, {
         'apiKey': ApiConstans.apiKey,
         'category': categoryId,
+        //'language': 'ar',
       });
       print('Requesting sources from: $url');
       var response = await http.get(url);
       print('Sources response: ${response.body}');
       return Source.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+      //print(object)
     } on Exception catch (e) {
       print('Error fetching sources: $e');
       throw e;
@@ -30,6 +32,7 @@ class ApiManager {
         'pageSize': pageSize.toString(),
         'page': page.toString(),
         'q': q,
+        //'language': 'ar',
       });
       print('Requesting news from: $url');
       var response = await http.get(url);
