@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/cubits/news/news_screen_cubit.dart';
 import 'package:news_app/home/category_data.dart';
 import 'package:news_app/model/source.dart';
+import 'package:news_app/news/widgets/news_list.dart';
 import 'package:news_app/news/widgets/source_tabs.dart';
 import 'package:news_app/search/search_screen.dart';
 import 'package:news_app/utils/app_colors.dart';
 import 'package:news_app/utils/images.dart';
-import '../home/widgets/drawer_body.dart';
-import 'widgets/news_list.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -19,10 +20,10 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-  late Future<Source?> initialSourceFuture;
   CategoryData? category;
   String selectedSourceId = '';
 
+  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -30,21 +31,9 @@ class _NewsScreenState extends State<NewsScreen> {
       final routeArgs = ModalRoute.of(context)?.settings.arguments;
       if (routeArgs is CategoryData) {
         category = routeArgs;
-        initialSourceFuture =
-            ApiManager.getSourcesByCategory(category!.id).then(
-          (sourceData) {
-            if (sourceData != null &&
-                sourceData.sources != null &&
-                sourceData.sources!.isNotEmpty) {
-              setState(() {
-                selectedSourceId = sourceData.sources!.first.id!;
-              });
-            }
-            return sourceData;
-          },
-        );
+        final cubit = context.read<NewsScreenCubit>();
+        cubit.getTabs(category!.id);
       } else {
-        // Optional: Navigate back or show an error message
         Navigator.pop(context);
       }
     }
@@ -62,9 +51,9 @@ class _NewsScreenState extends State<NewsScreen> {
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: AppColors.white,
-          size: 33, // Change this to the color you want
+          size: 30,
         ),
-        toolbarHeight: MediaQuery.of(context).size.height * .08,
+        toolbarHeight: MediaQuery.of(context).size.height * .07,
         centerTitle: true,
         title: Text(
           category?.categoryName ?? 'News',
@@ -74,51 +63,51 @@ class _NewsScreenState extends State<NewsScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 32.0),
+            padding: const EdgeInsetsDirectional.only(end: 24.0),
             child: InkWell(
               onTap: () {
                 Navigator.pushNamed(context, SearchScreen.name);
               },
               child: const ImageIcon(
                 color: AppColors.white,
-                size: 27,
+                size: 25,
                 AssetImage(ImagesPath.search),
               ),
             ),
           ),
         ],
       ),
-      body: FutureBuilder<Source?>(
-        future: initialSourceFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData && snapshot.data != null) {
-            final sources = snapshot.data!.sources;
-            if (sources != null && sources.isNotEmpty) {
-              return Column(
-                children: [
-                  SourceTabs(
-                    category: category!,
-                    onSourceSelected: _onSourceSelected,
-                  ),
-                  if (selectedSourceId.isNotEmpty)
-                    NewsList(
-                      sourceId: selectedSourceId,
-                      key: ValueKey(selectedSourceId),
-                    )
-                  else
-                    const Center(child: Text('No sources available')),
-                ],
-              );
-            } else {
-              return const Center(child: Text('No sources available.'));
+      body: BlocBuilder<NewsScreenCubit, NewsScreenState>(
+        builder: (context, state) {
+          if (state is SourceSuccess) {
+            final sources = state.sourcesList;
+
+            // Set the initial selectedSourceId to the first source if not already set
+            if (selectedSourceId.isEmpty && sources.isNotEmpty) {
+              selectedSourceId = sources.first.id!;
             }
-          } else {
-            return const Center(child: Text('No data available.'));
+
+            return Column(
+              children: [
+                SourceTabs(
+                  category: category!,
+                  onSourceSelected: _onSourceSelected,
+                ),
+                if (selectedSourceId.isNotEmpty)
+                  NewsList(
+                    sourceId: selectedSourceId,
+                    key: ValueKey(selectedSourceId),
+                  )
+              ],
+            );
+          } else if (state is SourceError) {
+            return Center(child: Text('Error: ${state.errMsg}'));
           }
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
+          );
         },
       ),
     );

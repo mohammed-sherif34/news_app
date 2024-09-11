@@ -15,8 +15,8 @@ class SourceTap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
           border: Border.all(
               width: 2,
@@ -24,15 +24,17 @@ class SourceTap extends StatelessWidget {
               color: AppColors.primaryColor),
           borderRadius: BorderRadius.circular(20),
           color: isSelected ? AppColors.primaryColor : AppColors.white),
-      child: Text(
-        title,
-        style: GoogleFonts.exo(
-            textStyle: isSelected
-                ? Theme.of(context).textTheme.titleSmall
-                : Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: AppColors.primaryColor)),
+      child: Center(
+        child: Text(
+          title,
+          style: GoogleFonts.exo(
+              textStyle: isSelected
+                  ? Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16)
+                  : Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(color: AppColors.primaryColor,fontSize: 16)),
+        ),
       ),
     );
   }

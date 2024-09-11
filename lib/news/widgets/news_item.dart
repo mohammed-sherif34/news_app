@@ -18,7 +18,7 @@ class NewsItem extends StatelessWidget {
             arguments: article);
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        padding: const EdgeInsets.only(right: 16.0, left: 16, bottom: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -63,9 +63,11 @@ class NewsImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * .25,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
       child: CachedNetworkImage(
+        fit: BoxFit.cover,
         imageUrl: article.urlToImage ?? '',
         placeholder: (context, url) => const Center(
           child: CircularProgressIndicator(

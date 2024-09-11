@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/utils/app_colors.dart';
 import 'views/categories_view.dart';
 import 'views/settings_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: AppColors.primaryColor,
               child: Center(
                 child: Text(
-                  'NewsApp!',
+                  AppLocalizations.of(context)!.newsApp,
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         color: AppColors.white,
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 10,
                     ),
                     Text(
-                      'Categories',
+                      AppLocalizations.of(context)!.categorys,
                       style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
                             color: AppColors.black,
@@ -100,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Settings',
+                    AppLocalizations.of(context)!.settings,
                     style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
                           color: AppColors.black,
@@ -124,7 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
         toolbarHeight: MediaQuery.of(context).size.height * .09,
         centerTitle: true,
         title: Text(
-          selectCategory?'Categorys':'Settings',
+          selectCategory
+              ? AppLocalizations.of(context)!.categorys
+              : AppLocalizations.of(context)!.settings,
           style: GoogleFonts.exo(
             textStyle: Theme.of(context).textTheme.titleLarge,
           ),
